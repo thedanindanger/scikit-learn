@@ -17,7 +17,6 @@ from sklearn.neighbors._base import _check_precomputed
 from ..base import ClassifierMixin, _fit_context
 from ..metrics._pairwise_distances_reduction import (
     ArgKminClassMode,
-    RadiusNeighborsClassMode,
 )
 from ..utils._param_validation import StrOptions
 from ..utils.arrayfuncs import _all_with_any_reduction_axis_1
@@ -744,26 +743,8 @@ class RadiusNeighborsClassifier(RadiusNeighborsMixin, ClassifierMixin, Neighbors
             self.weights == "uniform"
             and self._fit_method == "brute"
             and not self.outputs_2d_
-            and RadiusNeighborsClassMode.is_usable_for(X, self._fit_X, metric)
         ):
-            probabilities = RadiusNeighborsClassMode.compute(
-                X=X,
-                Y=self._fit_X,
-                radius=self.radius,
-                weights=self.weights,
-                Y_labels=self._y,
-                unique_Y_labels=self.classes_,
-                outlier_label=self.outlier_label,
-                metric=metric,
-                metric_kwargs=metric_kwargs,
-                strategy="parallel_on_X",
-                # `strategy="parallel_on_X"` has in practice be shown
-                # to be more efficient than `strategy="parallel_on_Y``
-                # on many combination of datasets.
-                # Hence, we choose to enforce it here.
-                # For more information, see:
-                # https://github.com/scikit-learn/scikit-learn/pull/26828/files#r1282398471  # noqa
-            )
+            probabilities = "Error cannot caluculate on this version of python"
             return probabilities
 
         neigh_dist, neigh_ind = self.radius_neighbors(X)
